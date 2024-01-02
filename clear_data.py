@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 import subprocess
 import shutil
-import datetime
+from datetime import datetime
 import calendar
 ################################################################################
+get_current_year = int(datetime.now().strftime("%Y"))
 def Alarm_free_space():
     process_pic_folder = subprocess.run(["sudo","du", "-sh", "/home/admin1/Pictures/nvdws"],
                         stdout=subprocess.PIPE).stdout.decode("utf-8")
@@ -38,66 +39,78 @@ def remove_dir(data):
     shutil.rmtree(directory)
 
 def handle_dir_Pic():
-    current_month = datetime.datetime.today().month
-    current_day = datetime.datetime.today().day
+    global get_current_year
+    current_month = datetime.today().month
+    current_day = datetime.today().day
     if current_day < 14:
         if (current_month) > 1:
             last_month = current_month - 1
-            last_day_of_last_month = calendar.monthrange(2023, last_month)[1]
+            last_day_of_last_month = calendar.monthrange(get_current_year, last_month)[1]
             leave_day_in_last_month = last_day_of_last_month + \
                 (current_day - 14) + 1
             for x in range(1, last_month):
+                data = str(x)
                 try:
                     if (x < 10):
-                        remove_dir("2023/"+str(f"{x:02d}"))
-                    else:
-                        remove_dir("2023/"+str(x))
+                        data = str(f"{x:02d}")
+                    remove_dir(str(get_current_year)+'/'+data)
                 except:
                     pass
             for x in range(1, leave_day_in_last_month):
+                data_1 = str(last_month)
+                data_2 = str(x)
                 try:
                     if (last_month < 10):
-                        if (x < 10):
-                            remove_dir(
-                                "2023/"+str(f"{last_month:02d}") + "/" + str(f"{x:02d}"))
-                        else:
-                            remove_dir(
-                                "2023/"+str(f"{last_month:02d}") + "/" + str(x))
-                    else:
-                        if (x < 10):
-                            remove_dir("2023/"+str(last_month) + "/" +
-                                       str(f"{x:02d}"))
-                        else:
-                            remove_dir("2023/"+str(last_month) + "/" + str(x))
+                        data_1 = str(f"{last_month:02d}")
+                    if (x < 10):
+                        data_2 = str(f"{x:02d}")
+                    remove_dir(str(get_current_year)+'/'+data_1 + "/" + data_2)
                 except:
                     pass
-    elif current_day >= 14:
+        else:
+            last_year = get_current_year - 1
+            leave_day_in_last_month = 31 + (current_day - 14)
+            for x in range(1, 12):
+                data = str(x)
+                try:
+                    if (x < 10):
+                        data = str(f"{x:02d}")
+                    remove_dir(str(last_year)+'/'+data)
+                except:
+                    pass
+            for x in range(1, leave_day_in_last_month):
+                data_1 = str(12)
+                data_2 = str(x)
+                try:
+                    if (last_month < 10):
+                        data_1 = str(f"{last_month:02d}")
+                    if (x < 10):
+                        data_2 = str(f"{x:02d}")
+                    remove_dir(str(get_current_year)+'/'+data_1 + "/" + data_2)
+                except:
+                    pass
+    else:
         for x in range(1, current_month):
+            data = str(x)
             try:
                 if (x < 10):
-                    remove_dir("2023/"+str(f"{x:02d}"))
-                else:
-                    remove_dir("2023/"+str(x))
+                    data = str(f"{x:02d}")
+                remove_dir(str(get_current_year)+'/'+data)
             except:
                 pass
-        if (current_day > 14):
+        if (current_day == 14):
+            leave_day_in_current_month = current_day - 13
+        else:
             leave_day_in_current_month = current_day - 14
             for x in range(1, leave_day_in_current_month + 1):
+                data_1 = str(current_month)
+                data_2 = str(x)
                 try:
                     if (current_month < 10):
-                        if (x < 10):
-                            remove_dir(
-                                "2023/"+str(f"{current_month:02d}") + "/" + str(f"{x:02d}"))
-                        else:
-                            remove_dir(
-                                "2023/"+str(f"{current_month:02d}") + "/" + str(x))
-                    else:
-                        if (x < 10):
-                            remove_dir("2023/"+str(current_month) + "/" +
-                                       str(f"{x:02d}"))
-                        else:
-                            remove_dir(
-                                "2023/"+str(current_month) + "/" + str(x))
+                        data_1 = str(f"{current_month:02d}")
+                    if (x < 10):
+                        data_2 = str(f"{x:02d}")
+                    remove_dir(str(get_current_year)+'/'+data_1+ "/" +data_2)
                 except:
                     pass
 
