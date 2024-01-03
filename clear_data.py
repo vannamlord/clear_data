@@ -35,8 +35,12 @@ def Alarm_free_space():
         handle_dir_Pic()
 
 def remove_dir(data):
-    directory = "/home/admin1/Pictures/nvdws/"+data
-    shutil.rmtree(directory)
+    try:
+        directory = "/home/admin1/Pictures/nvdws/"+data
+        print(directory)
+        shutil.rmtree(directory)
+    except:
+        pass
 
 def handle_dir_Pic():
     global get_current_year
@@ -46,8 +50,7 @@ def handle_dir_Pic():
         if (current_month) > 1:
             last_month = current_month - 1
             last_day_of_last_month = calendar.monthrange(get_current_year, last_month)[1]
-            leave_day_in_last_month = last_day_of_last_month + \
-                (current_day - 14) + 1
+            leave_day_in_last_month = last_day_of_last_month + current_day - 14
             for x in range(1, last_month):
                 data = str(x)
                 try:
@@ -56,20 +59,20 @@ def handle_dir_Pic():
                     remove_dir(str(get_current_year)+'/'+data)
                 except:
                     pass
-            for x in range(1, leave_day_in_last_month):
+            for y in range(1, leave_day_in_last_month):
                 data_1 = str(last_month)
-                data_2 = str(x)
+                data_2 = str(y)
                 try:
                     if (last_month < 10):
                         data_1 = str(f"{last_month:02d}")
-                    if (x < 10):
-                        data_2 = str(f"{x:02d}")
+                    if (y < 10):
+                        data_2 = str(f"{y:02d}")
                     remove_dir(str(get_current_year)+'/'+data_1 + "/" + data_2)
                 except:
                     pass
         else:
             last_year = get_current_year - 1
-            leave_day_in_last_month = 31 + (current_day - 14)
+            leave_day_in_last_month = 17 + current_day
             for x in range(1, 12):
                 data = str(x)
                 try:
@@ -78,15 +81,12 @@ def handle_dir_Pic():
                     remove_dir(str(last_year)+'/'+data)
                 except:
                     pass
-            for x in range(1, leave_day_in_last_month):
-                data_1 = str(12)
-                data_2 = str(x)
+            for y in range(1, leave_day_in_last_month):
+                data_2 = str(y)
                 try:
-                    if (last_month < 10):
-                        data_1 = str(f"{last_month:02d}")
-                    if (x < 10):
-                        data_2 = str(f"{x:02d}")
-                    remove_dir(str(get_current_year)+'/'+data_1 + "/" + data_2)
+                    if (y < 10):
+                        data_2 = str(f"{y:02d}")
+                    remove_dir(str(last_year)+'/12' + "/" + data_2)
                 except:
                     pass
     else:
@@ -102,17 +102,17 @@ def handle_dir_Pic():
             leave_day_in_current_month = current_day - 13
         else:
             leave_day_in_current_month = current_day - 14
-            for x in range(1, leave_day_in_current_month + 1):
-                data_1 = str(current_month)
-                data_2 = str(x)
-                try:
-                    if (current_month < 10):
-                        data_1 = str(f"{current_month:02d}")
-                    if (x < 10):
-                        data_2 = str(f"{x:02d}")
-                    remove_dir(str(get_current_year)+'/'+data_1+ "/" +data_2)
-                except:
-                    pass
+        for x in range(1, leave_day_in_current_month + 1):
+            data_1 = str(current_month)
+            data_2 = str(x)
+            try:
+                if (current_month < 10):
+                    data_1 = str(f"{current_month:02d}")
+                if (x < 10):
+                    data_2 = str(f"{x:02d}")
+                remove_dir(str(get_current_year)+'/'+data_1+ "/" +data_2)
+            except:
+                pass
 
 def handle_dir_Log():
     for x in range(1,31):
