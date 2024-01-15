@@ -90,6 +90,7 @@ def handle_dir_Pic():
                 except:
                     pass
     else:
+        remove_dir(str(get_current_year - 1))
         for x in range(1, current_month):
             data = str(x)
             try:
