@@ -48,6 +48,7 @@ def handle_dir_Pic():
     current_day = datetime.today().day
     if current_day < 14:
         if (current_month) > 1:
+            remove_dir(str(get_current_year - 1))
             last_month = current_month - 1
             last_day_of_last_month = calendar.monthrange(get_current_year, last_month)[1]
             leave_day_in_last_month = last_day_of_last_month + current_day - 14
@@ -71,6 +72,7 @@ def handle_dir_Pic():
                 except:
                     pass
         else:
+            remove_dir(str(get_current_year - 1))
             last_year = get_current_year - 1
             leave_day_in_last_month = 17 + current_day
             for x in range(1, 12):
