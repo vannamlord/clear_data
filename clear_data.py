@@ -10,8 +10,12 @@ def Alarm_free_space():
                         stdout=subprocess.PIPE).stdout.decode("utf-8")
     process_log_folder = subprocess.run(["sudo","du", "-sh", "/var/log"],
                         stdout=subprocess.PIPE).stdout.decode("utf-8")
-    disk_usage = subprocess.run(['df','/dev/sda3'],stdout=subprocess.PIPE).\
-        stdout.decode(encoding='utf-8').split('\n')[1].split(' ')
+    try:
+        disk_usage = subprocess.run(['df','/dev/sda3'],stdout=subprocess.PIPE).\
+            stdout.decode(encoding='utf-8').split('\n')[1].split(' ')
+    except:
+        disk_usage = subprocess.run(['df','/dev/sda2'],stdout=subprocess.PIPE).\
+            stdout.decode(encoding='utf-8').split('\n')[1].split(' ')
     while True:
         try:
             disk_usage.remove('')
